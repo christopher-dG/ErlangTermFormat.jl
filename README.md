@@ -16,7 +16,7 @@ Encoder and decoder for Erlang's [External Term Format](http://erlang.org/doc/ap
 * [ ] [`PID_EXT`](http://erlang.org/doc/apps/erts/erl_ext_dist.html#pid_ext)
 * [x] [`SMALL_TUPLE_EXT`](http://erlang.org/doc/apps/erts/erl_ext_dist.html#small_tuple_ext)
 * [x] [`LARGE_TUPLE_EXT`](http://erlang.org/doc/apps/erts/erl_ext_dist.html#large_tuple_ext)
-* [ ] [`MAP_EXT`](http://erlang.org/doc/apps/erts/erl_ext_dist.html#map_ext)
+* [x] [`MAP_EXT`](http://erlang.org/doc/apps/erts/erl_ext_dist.html#map_ext)
 * [x] [`NIL_EXT`](http://erlang.org/doc/apps/erts/erl_ext_dist.html#nil_ext)
 * [ ] [`STRING_EXT`](http://erlang.org/doc/apps/erts/erl_ext_dist.html#string_ext)
 * [ ] [`LIST_EXT`](http://erlang.org/doc/apps/erts/erl_ext_dist.html#list_ext)
