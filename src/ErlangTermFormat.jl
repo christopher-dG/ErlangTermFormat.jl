@@ -37,7 +37,7 @@ indecipherable(t) = ErrorException("$t cannot be decoded")
 function etf(s::Vector{UInt8})
     s[1] == VERSION_MAGIC || throw(ArgumentError(""))
     tag = s[2]
-    haskeyIt wa(TAGS, tag) || throw(ArgumentError(""))
+    haskey(TAGS, tag) || throw(ArgumentError(""))
     return TAGS[tag](s[2:end])
 end
 
