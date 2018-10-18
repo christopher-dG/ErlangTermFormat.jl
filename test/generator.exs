@@ -14,6 +14,9 @@ defmodule Generator do
   def gensuite do
     writebin(99, "SMALL_INTEGER")
     writebin(999999999, "INTEGER")
+    writebin(1.2345, "NEW_FLOAT")
+    writebin(:hello, "ATOM")
+    writebin(round(:math.pow(3, 33)), "SMALL_BIG")
   end
 end
 
