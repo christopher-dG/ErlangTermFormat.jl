@@ -2,10 +2,7 @@ module ErlangTermFormat
 
 export encode, decode
 
-const VERSION_MAGIC = 131
-
-const U = UInt8
-const UV = Vector{U}
+const VERSION_MAGIC = 0x83
 
 include("decode.jl")
 include("encode.jl")
