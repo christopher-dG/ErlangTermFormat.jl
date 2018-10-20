@@ -16,7 +16,7 @@ function decode_from_tag!(io::IO)
     return DECODER_TAGS[t](io)
 end
 
-decode_multiple!(io::IO, n::Integer) = map(_ -> decode_from_tag!(io), 1:n)
+decode_multiple!(io::IO, n::Integer) = Any[decode_from_tag!(io) for _ in 1:n]
 
 # Integers
 
@@ -79,10 +79,10 @@ decode_small_atom_utf8!(io::IO) = decode_atom!(io, UInt8, 1)
 
 decode_nil!(io::IO) = []
 function decode_list!(io::IO)
-    len =  decode_integer!(io, UInt32, 4, true)
-    return decode_multiple!(io, len)
-    # TODO: How to handle the tail? I think it's just an extra element of any type.
-    # decode_from_tag!(io)
+    len = decode_integer!(io, UInt32, 4, true)
+    xs = decode_multiple!(io, len)
+    decode_from_tag!(io)
+    return xs
 end
 function decode_string!(io::IO)
     len = decode_integer!(io, UInt16, 2, true)
@@ -94,7 +94,7 @@ end
 function decode_map!(io::IO)
     len = decode_integer!(io, UInt32, 4, true)
     xs = decode_multiple!(io, 2 * len)
-    return Dict(xs[i] => xs[i+1] for i in 1:2:length(xs))
+    return Dict{Any, Any}(xs[i] => xs[i+1] for i in 1:2:length(xs))
 end
 
 # Strings
