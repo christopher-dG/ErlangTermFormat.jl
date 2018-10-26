@@ -1,11 +1,11 @@
 const U = UInt8
 
 """
-    encode(x) -> String
+    encode(x) -> Vector{$U}
 
 Encode some [ETF](http://erlang.org/doc/apps/erts/erl_ext_dist.html) data.
 """
-encode(x) = String(pushfirst!(_encode(x), VERSION_MAGIC))
+encode(x) = U[VERSION_MAGIC; _encode(x)]
 
 _encode(x) = error("Unknown ETF type $(typeof(x))")
 
@@ -37,7 +37,7 @@ _encode(x::AbstractFloat) = U[V, 70, reverse(reinterpret(U, [x]))...]
 
 function _encode(x::Tuple)
     len = length(x)
-    tag = len <= typemax(UInt8) ? 104 : 105
+    tag = len <= typemax(U) ? 104 : 105
     return U[tag; _encode(len)[2:end]; vcat(_encode.(x)...)]
 end
 
@@ -50,7 +50,7 @@ function _encode(x::Symbol)
     # We're just going to do what the spec actually says, except for the atom length limit.
     s = Vector{U}(string(x))
     len = length(s)
-    return len <= typemax(U) ? U[119; len; s] : U[118; _encode(len2, 2); s]
+    return len <= typemax(U) ? U[119; len; s] : U[118; _encode(len, 2); s]
 end
 _encode(x::Bool) = _encode(Symbol(x))
 _encode(::Nothing) = _encode(:nil)
