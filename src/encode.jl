@@ -9,7 +9,6 @@ encode(x) = String(pushfirst!(_encode(x), VERSION_MAGIC))
 
 _encode(x) = error("Unknown ETF type $(typeof(x))")
 
-
 # Integers
 
 # Note: Encoding with precision does not include the tag byte.
@@ -19,10 +18,14 @@ function _encode(x::Integer)
          U[97, x]
      elseif typemin(Int32) <= x <= typemax(Int32)
          U[98; _encode(x, 4)]
-     elseif -(BigInt(256)^255) < x < BigInt(256)^255
-         U[]  # TODO: SMALL_BIG_EXT
      else
-         U[]  # TODO: LARGE_BIG_EXT
+         n = Int(x < 0)
+         digs = digits(U, x; base=256)
+         if -(BigInt(256)^255) < x < BigInt(256)^255
+             U[110; round(U, log(256, abs(x))) + 1; n; digs]
+         else
+             U[111; _encode(round(UInt32, log(256, abs(x))) + 1, 4); n; digs]
+         end
      end
 end
 
