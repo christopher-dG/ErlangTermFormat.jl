@@ -50,7 +50,7 @@ function _encode(x::Symbol)
     # We're just going to do what the spec actually says, except for the atom length limit.
     s = Vector{U}(string(x))
     len = length(s)
-    return len <= typemax(UInt8) ? U[119; _encode(len); s] : U[118; _encode(len2, 2); s]
+    return len <= typemax(U) ? U[119; len; s] : U[118; _encode(len2, 2); s]
 end
 _encode(x::Bool) = _encode(Symbol(x))
 _encode(::Nothing) = _encode(:nil)
