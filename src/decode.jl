@@ -7,7 +7,7 @@ function decode(s)
     io = IOBuffer(s)
     v = first(read(io, 1))
     v == VERSION_MAGIC || error("Unknown ETF version $v")
-    return decode_from_tag!(IOBuffer(s[2:end]))
+    return decode_from_tag!(io)
 end
 
 function decode_from_tag!(io::IO)
